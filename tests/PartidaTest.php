@@ -1,139 +1,139 @@
 <?php
 
-use Dsw\Rolgame\Clerigo;
-use Dsw\Rolgame\Guerrero;
-use Dsw\Rolgame\Mago;
-use Dsw\Rolgame\Partida;
-use Dsw\Rolgame\Personaje;
+use TeRacksito\Rolgame\Cleric;
+use TeRacksito\Rolgame\Warrior;
+use TeRacksito\Rolgame\Magician;
+use TeRacksito\Rolgame\Game;
+use TeRacksito\Rolgame\Character;
 use PHPUnit\Framework\TestCase;
 
-class PartidaTest extends TestCase
+class GameTest extends TestCase
 {
-  public function testAgregarPersonaje()
+  public function testAddCharacter()
   {
-    $partida = new Partida();
-    $guerrero = new Guerrero('Conan', 1, 100, 20);
+    $game = new Game();
+    $warrior = new Warrior('Conan', 1, 100, 20);
 
-    $partida->agregarPersonaje($guerrero);
-    $this->assertCount(1, $partida->obtenerPersonajes(), "El número de personajes debe ser 1");
-    $this->assertContains($guerrero, $partida->obtenerPersonajes(), "El guerrero creado está en la partida");
+    $game->addCharacter($warrior);
+    $this->assertCount(1, $game->obtenerCharacters(), "El número de personajes debe ser 1");
+    $this->assertContains($warrior, $game->obtenerCharacters(), "El guerrero creado está en la partida");
   }
 
-  public function testAgregarVariosPersonajes()
+  public function testAddSeveralCharacters()
   {
-    $partida = new Partida();
+    $game = new Game();
 
-    $guerrero = new Guerrero('Conan', 1, 100, 20);
-    $partida->agregarPersonaje($guerrero);
-    $this->assertCount(1, $partida->obtenerPersonajes(), "El número de personajes debe ser 1");
-    $this->assertContains($guerrero, $partida->obtenerPersonajes(), "El guerrero creado está en la partida");
+    $warrior = new Warrior('Conan', 1, 100, 20);
+    $game->addCharacter($warrior);
+    $this->assertCount(1, $game->obtenerCharacters(), "El número de personajes debe ser 1");
+    $this->assertContains($warrior, $game->obtenerCharacters(), "El guerrero creado está en la partida");
 
-    $mago = new Mago('Gandalf', 1, 80, 100);
-    $partida->agregarPersonaje($mago);
-    $this->assertCount(2, $partida->obtenerPersonajes(), "El número de personajes debe ser 2");
-    $this->assertContains($mago, $partida->obtenerPersonajes(), "El mago creado está en la partida");
+    $magician = new Magician('Gandalf', 1, 80, 100);
+    $game->addCharacter($magician);
+    $this->assertCount(2, $game->obtenerCharacters(), "El número de personajes debe ser 2");
+    $this->assertContains($magician, $game->obtenerCharacters(), "El mago creado está en la partida");
   }
 
-  public function testEliminarPersonaje()
+  public function testRemoveCharacter()
   {
-    $partida = new Partida();
+    $game = new Game();
 
-    $guerrero = new Guerrero('Conan', 1, 100, 20);
-    $mago = new Mago('Gandalf', 1, 80, 100);
-    $clerigo = new Clerigo('Elrond', 8, 90, 30);
-    $partida->agregarPersonaje($guerrero);
-    $partida->agregarPersonaje($mago);
-    $partida->agregarPersonaje($clerigo);
-    $this->assertCount(3, $partida->obtenerPersonajes(), "El número de personajes debe ser 3");
-    $this->assertContains($guerrero, $partida->obtenerPersonajes(), "El guerrero creado está en la partida");
-    $this->assertContains($mago, $partida->obtenerPersonajes(), "El mago creado está en la partida");
-    $this->assertContains($clerigo, $partida->obtenerPersonajes(), "El clerigo creado está en la partida");
+    $warrior = new Warrior('Conan', 1, 100, 20);
+    $magician = new Magician('Gandalf', 1, 80, 100);
+    $cleric = new Cleric('Elrond', 8, 90, 30);
+    $game->addCharacter($warrior);
+    $game->addCharacter($magician);
+    $game->addCharacter($cleric);
+    $this->assertCount(3, $game->obtenerCharacters(), "El número de personajes debe ser 3");
+    $this->assertContains($warrior, $game->obtenerCharacters(), "El guerrero creado está en la partida");
+    $this->assertContains($magician, $game->obtenerCharacters(), "El mago creado está en la partida");
+    $this->assertContains($cleric, $game->obtenerCharacters(), "El clerigo creado está en la partida");
 
-    $partida->eliminarPersonaje($mago);
-    $this->assertCount(2, $partida->obtenerPersonajes(), "El número de personajes debe ser 2");
-    $this->assertContains($guerrero, $partida->obtenerPersonajes(), "El guerrero está en la partida");
-    $this->assertNotContains($mago, $partida->obtenerPersonajes(), "El mago eliminado ya no está en la partida");
-    $this->assertContains($clerigo, $partida->obtenerPersonajes(), "El clerigo está en la partida");
+    $game->removeCharacter($magician);
+    $this->assertCount(2, $game->obtenerCharacters(), "El número de personajes debe ser 2");
+    $this->assertContains($warrior, $game->obtenerCharacters(), "El guerrero está en la partida");
+    $this->assertNotContains($magician, $game->obtenerCharacters(), "El mago eliminado ya no está en la partida");
+    $this->assertContains($cleric, $game->obtenerCharacters(), "El clerigo está en la partida");
 
-    $partida->eliminarPersonaje($clerigo);
-    $this->assertCount(1, $partida->obtenerPersonajes(), "El número de personajes debe ser 1");
-    $this->assertContains($guerrero, $partida->obtenerPersonajes(), "El guerrero está en la partida");
-    $this->assertNotContains($mago, $partida->obtenerPersonajes(), "El mago eliminado ya no está en la partida");
-    $this->assertNotContains($clerigo, $partida->obtenerPersonajes(), "El clerigo eliminado ya no está en la partida");
+    $game->removeCharacter($cleric);
+    $this->assertCount(1, $game->obtenerCharacters(), "El número de personajes debe ser 1");
+    $this->assertContains($warrior, $game->obtenerCharacters(), "El guerrero está en la partida");
+    $this->assertNotContains($magician, $game->obtenerCharacters(), "El mago eliminado ya no está en la partida");
+    $this->assertNotContains($cleric, $game->obtenerCharacters(), "El clerigo eliminado ya no está en la partida");
 
-    $partida->eliminarPersonaje($guerrero);
-    $this->assertCount(0, $partida->obtenerPersonajes(), "El número de personajes debe ser 0");
-    $this->assertNotContains($guerrero, $partida->obtenerPersonajes(), "El guerrero eliminado ya no está en la partida");
-    $this->assertNotContains($mago, $partida->obtenerPersonajes(), "El mago eliminado ya no está en la partida");
-    $this->assertNotContains($clerigo, $partida->obtenerPersonajes(), "El clerigo eliminado ya no está en la partida");
+    $game->removeCharacter($warrior);
+    $this->assertCount(0, $game->obtenerCharacters(), "El número de personajes debe ser 0");
+    $this->assertNotContains($warrior, $game->obtenerCharacters(), "El guerrero eliminado ya no está en la partida");
+    $this->assertNotContains($magician, $game->obtenerCharacters(), "El mago eliminado ya no está en la partida");
+    $this->assertNotContains($cleric, $game->obtenerCharacters(), "El clerigo eliminado ya no está en la partida");
   }
 
-  public function testObtenerPersonajesPorClase()
+  public function testObtenerCharactersPorClase()
   {
-    $partida = new Partida();
+    $game = new Game();
 
-    $guerrero1 = new Guerrero('Conan', 1, 100, 20);
-    $mago1 = new Mago('Gandalf', 1, 80, 100);
-    $clerigo1 = new Clerigo('Elrond', 8, 90, 30);
-    $guerrero2 = new Guerrero('Aquiles', 3, 30, 30);
-    $mago2 = new Mago('Merlin', 2, 60, 80);
-    $guerrero3 = new Guerrero('Goku', 2, 80, 30);
+    $warrior1 = new Warrior('Conan', 1, 100, 20);
+    $magician1 = new Magician('Gandalf', 1, 80, 100);
+    $cleric1 = new Cleric('Elrond', 8, 90, 30);
+    $warrior2 = new Warrior('Aquiles', 3, 30, 30);
+    $magician2 = new Magician('Merlin', 2, 60, 80);
+    $warrior3 = new Warrior('Goku', 2, 80, 30);
 
-    $partida->agregarPersonaje($guerrero1);
-    $partida->agregarPersonaje($mago1);
-    $partida->agregarPersonaje($clerigo1);
-    $partida->agregarPersonaje($guerrero2);
-    $partida->agregarPersonaje($mago2);
-    $partida->agregarPersonaje($guerrero3);
+    $game->addCharacter($warrior1);
+    $game->addCharacter($magician1);
+    $game->addCharacter($cleric1);
+    $game->addCharacter($warrior2);
+    $game->addCharacter($magician2);
+    $game->addCharacter($warrior3);
 
-    $this->assertCount(3, $partida->obtenerPersonajesPorClase(Guerrero::class));
-    $this->assertContains($guerrero1, $partida->obtenerPersonajesPorClase(Guerrero::class), "El guerrero1 está en la partida");
-    $this->assertNotContains($mago1, $partida->obtenerPersonajesPorClase(Guerrero::class), "El mago1 no está en la partida");
-    $this->assertNotContains($clerigo1, $partida->obtenerPersonajesPorClase(Guerrero::class), "El clerigo1 no está en la partida");
-    $this->assertContains($guerrero2, $partida->obtenerPersonajesPorClase(Guerrero::class), "El guerrero2 está en la partida");
-    $this->assertNotContains($mago2, $partida->obtenerPersonajesPorClase(Guerrero::class), "El mago2 no está en la partida");
-    $this->assertContains($guerrero3, $partida->obtenerPersonajesPorClase(Guerrero::class), "El guerrero3 está en la partida");
+    $this->assertCount(3, $game->obtenerCharactersPorClase(Warrior::class));
+    $this->assertContains($warrior1, $game->obtenerCharactersPorClase(Warrior::class), "El guerrero1 está en la partida");
+    $this->assertNotContains($magician1, $game->obtenerCharactersPorClase(Warrior::class), "El mago1 no está en la partida");
+    $this->assertNotContains($cleric1, $game->obtenerCharactersPorClase(Warrior::class), "El clerigo1 no está en la partida");
+    $this->assertContains($warrior2, $game->obtenerCharactersPorClase(Warrior::class), "El guerrero2 está en la partida");
+    $this->assertNotContains($magician2, $game->obtenerCharactersPorClase(Warrior::class), "El mago2 no está en la partida");
+    $this->assertContains($warrior3, $game->obtenerCharactersPorClase(Warrior::class), "El guerrero3 está en la partida");
 
-    $this->assertCount(2, $partida->obtenerPersonajesPorClase(Mago::class));
-    $this->assertCount(1, $partida->obtenerPersonajesPorClase(Clerigo::class));
-    $this->assertCount(6, $partida->obtenerPersonajesPorClase(Personaje::class));
-    $this->assertCount(0, $partida->obtenerPersonajesPorClase(Partida::class));
+    $this->assertCount(2, $game->obtenerCharactersPorClase(Magician::class));
+    $this->assertCount(1, $game->obtenerCharactersPorClase(Cleric::class));
+    $this->assertCount(6, $game->obtenerCharactersPorClase(Character::class));
+    $this->assertCount(0, $game->obtenerCharactersPorClase(Game::class));
   }
 
   public function testLucha()
   {
-    $guerrero1 = new Guerrero('Conan', 1, 100, 20);
-    $guerrero2 = new Guerrero('Aquiles', 3, 30, 30);
-    Personaje::lucha($guerrero1, $guerrero2);
-    $this->assertSame(20, $guerrero1->puntosDeVida);
-    $this->assertSame(25, $guerrero2->puntosDeVida);
+    $warrior1 = new Warrior('Conan', 1, 100, 20);
+    $warrior2 = new Warrior('Aquiles', 3, 30, 30);
+    Character::lucha($warrior1, $warrior2);
+    $this->assertSame(20, $warrior1->puntosDeVida);
+    $this->assertSame(25, $warrior2->puntosDeVida);
 
-    $mago1 = new Mago('Gandalf', 1, 80, 100);
-    $clerigo1 = new Clerigo('Elrond', 8, 90, 30);
-    Personaje::lucha($mago1, $clerigo1);
-    $this->assertSame(40, $mago1->puntosDeVida);
-    $this->assertSame(55, $clerigo1->puntosDeVida);
+    $magician1 = new Magician('Gandalf', 1, 80, 100);
+    $cleric1 = new Cleric('Elrond', 8, 90, 30);
+    Character::lucha($magician1, $cleric1);
+    $this->assertSame(40, $magician1->puntosDeVida);
+    $this->assertSame(55, $cleric1->puntosDeVida);
   }
 
   public function testEliminarMuertos() {
-    $partida = new Partida();
-    $guerrero1 = new Guerrero('Conan', 1, 100, 20);
-    $guerrero2 = new Guerrero('Aquiles', 3, 30, 30);
-    $partida->agregarPersonaje($guerrero1);
-    $partida->agregarPersonaje($guerrero2);
+    $game = new Game();
+    $warrior1 = new Warrior('Conan', 1, 100, 20);
+    $warrior2 = new Warrior('Aquiles', 3, 30, 30);
+    $game->addCharacter($warrior1);
+    $game->addCharacter($warrior2);
     
-    Personaje::lucha($guerrero1, $guerrero2);
-    $this->assertSame(20, $guerrero1->puntosDeVida);
-    $this->assertSame(25, $guerrero2->puntosDeVida);
-    $partida->eliminarMuertos();
-    $this->assertCount(2, $partida->obtenerPersonajes(), "El número de personajes debe ser 2");
+    Character::lucha($warrior1, $warrior2);
+    $this->assertSame(20, $warrior1->puntosDeVida);
+    $this->assertSame(25, $warrior2->puntosDeVida);
+    $game->eliminarMuertos();
+    $this->assertCount(2, $game->obtenerCharacters(), "El número de personajes debe ser 2");
 
-    Personaje::lucha($guerrero2, $guerrero1);
-    $this->assertSame(-60, $guerrero1->puntosDeVida);
-    $this->assertSame(20, $guerrero2->puntosDeVida);
-    $partida->eliminarMuertos();
-    $this->assertCount(1, $partida->obtenerPersonajes(), "El número de personajes debe ser 1");
-    $this->assertNotContains($guerrero1, $partida->obtenerPersonajes(), "El guerrero1 no eestá en la partida");
-    $this->assertContains($guerrero2, $partida->obtenerPersonajes(), "El guerrero2 está en la partida");
+    Character::lucha($warrior2, $warrior1);
+    $this->assertSame(-60, $warrior1->puntosDeVida);
+    $this->assertSame(20, $warrior2->puntosDeVida);
+    $game->eliminarMuertos();
+    $this->assertCount(1, $game->obtenerCharacters(), "El número de personajes debe ser 1");
+    $this->assertNotContains($warrior1, $game->obtenerCharacters(), "El guerrero1 no eestá en la partida");
+    $this->assertContains($warrior2, $game->obtenerCharacters(), "El guerrero2 está en la partida");
   }
 }
